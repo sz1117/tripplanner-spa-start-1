@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "webpack -w & nodemon server/app.js",
+    "start:dev": "npm run start-server & npm run build-watch",
+    "start-server": "nodemon server/app.js --ignore public",
+    "build-watch": "webpack -w",
     "start": "npm run start:dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,7 +14,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "webpack": "^3.6.0"
+    "nodemon": "^1.18.3",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.1.0"
   },
   "dependencies": {
     "mapbox-gl": "^0.40.1"

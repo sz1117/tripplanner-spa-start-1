@@ -399,17 +399,6 @@ var data = {
       age_range: "All"
     },
     {
-      name: "Ground Zero",
-      place: {
-        address: "1 Liberty Plz Lbby 2",
-        city: "New York",
-        state: "NY",
-        phone: "123-456-7890",
-        location: [-74.01312, 40.709329]
-      },
-      age_range: "All"
-    },
-    {
       name: "National September 11th Memorial & Museum",
       place: {
         address: "1 Albany St",

@@ -4,10 +4,7 @@
 var Promise = require('bluebird');
 var {
   db,
-  Place, 
-  Hotel,
-  Restaurant,
-  Activity
+  Place
 } = require('./models');
 
 var data = {
@@ -61,21 +58,24 @@ var data = {
   ]
 };
 
-db.sync({force: true})
-.then(function () {
-  console.log("Dropped old data, now inserting data");
-  return Promise.map(Object.keys(data), function (name) {
-    return Promise.map(data[name], function (item) {
-      return db.model(name)
-      .create(item, {
-        include: [Place]
-      });
-    });
-  });
-})
-.then(function () {
-  console.log("Finished inserting data (press ctrl-c to exit)");
-})
-.catch(function (err) {
-  console.error('There was totally a problem', err, err.stack);
-});
+async function seed() {
+  try {
+    await db.sync({force: true});
+    console.log("Dropped old data, now inserting data");
+
+    await Promise.map(Object.keys(data), async function (name) {
+      await Promise.map(data[name], async function(item) {
+        await db.model(name).create(item, { include: [Place] });
+      })
+    })
+
+    console.log("Finished inserting data");
+  } catch (err) {
+    console.error('There was totally a problem', err, err.stack);
+  } finally {
+    db.close(); // uses promises but does not return a promise. https://github.com/sequelize/sequelize/pull/5776
+    console.log("connection closed"); // the connection eventually closes, we just manually do so to end the process quickly
+  }
+}
+
+seed();
